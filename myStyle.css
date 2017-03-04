@@ -1,5 +1,12 @@
 @import "../node_modules/picnic/picnic.min.css";
 
 nav{
-    background-color: darkblue;
+    /*background-color: darkblue;*/
+    background: url('http://mundipagg.com/images/zendesk_icons/header.png') center center no-repeat;
+    position: relative;
+}
+
+nav span{
+    color: white;
+}
 }
