@@ -1,1 +1,5 @@
 @import "../node_modules/picnic/picnic.min.css";
+
+nav{
+    background-color: darkblue;
+}
