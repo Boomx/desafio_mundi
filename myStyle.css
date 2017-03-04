@@ -2,7 +2,7 @@
 
 nav{
     /*background-color: darkblue;*/
-    background: url('http://mundipagg.com/images/zendesk_icons/header.png') center center no-repeat;
+    background: url('/src/media/header.png') center center no-repeat;
     position: relative;
 }
 
