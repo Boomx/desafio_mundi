@@ -1,0 +1,22 @@
+{
+  "name": "desafio_mundi",
+  "version": "1.0.0",
+  "description": "Desafio para vaga de front-end na MundiPagg",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Boomx/desafio_mundi.git"
+  },
+  "author": "Denilson Rodrigues",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Boomx/desafio_mundi/issues"
+  },
+  "homepage": "https://github.com/Boomx/desafio_mundi#readme",
+  "dependencies": {
+    "picnic": "^6.3.2"
+  }
+}
