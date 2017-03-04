@@ -21,3 +21,7 @@ select{
     /*margin: 10px 10px 10px 10px;*/
     /*border-right: 10px;*/
 }
+
+.chart_container{
+    width: 600px;
+}
