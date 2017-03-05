@@ -5,7 +5,9 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rollup -c -w",
+    "serve": "lite-server",
+    "dev": "npm run build | npm run serve"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,10 @@
   "dependencies": {
     "chart.js": "^2.5.0",
     "picnic": "^6.3.2"
+  },
+  "devDependencies": {
+    "lite-server": "^2.2.2",
+    "rollup": "^0.41.4",
+    "rollup-watch": "^3.2.2"
   }
 }
