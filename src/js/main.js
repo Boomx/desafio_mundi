@@ -1,77 +1,17 @@
-// import * as counter from './counter';
-function httpGetAsync(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadedystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
+import * as chartController from './chartController';
+import * as dataLoader from './dataLoader';
+import {GitRepo} from './classes'
 
-httpGetAsync("https://api.github.com/users/mundipagg/repos",(response)=>{
+chartController.beginChart();
+
+dataLoader.httpGetAsync("https://api.github.com/users/mundipagg/repos", (response) => {
     // document.getElementsByTagName('body')[0].innerHTML+=response;
-    // window.console.log(response);
+    // console.log(response);
+    let objectResponse = JSON.parse(response);
+    // console.log(objectResponse);
+    let repos = objectResponse.map((element)=>{
+        // console.log(element.name);
+        return new GitRepo(element.name,element.description,element.commits_url,element.forks_url,element.forks_count,element.contributors_url,element.stargazers_count,element.stargazers_url);
+    })
+    console.log(repos);
 })
-
-
-var ctx = document.getElementById("myChart");
-var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            // data: [215, 9, 10, 81,256, 5, 40],
-            spanGaps: false,
-        },
-        {
-            label: "My Sec dataset",
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            // data: [65, 59, 80, 81, 56, 55, 40],
-            data: [215, 9, 10, 81,256, 5, 40],
-            spanGaps: false,
-        }
-    ]
-    ,
-    
-};
-
-let myChart = new Chart(ctx, {
-    type: 'line',
-    data: data
-});

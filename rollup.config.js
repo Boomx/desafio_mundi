@@ -1,5 +1,5 @@
 export default{
     entry: 'src/js/main.js',
-    dest: 'out.js',
+    dest: 'bundle.js',
     format: 'iife'
 }
