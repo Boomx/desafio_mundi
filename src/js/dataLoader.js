@@ -1,6 +1,7 @@
 'use strict';
 import {
-    GitRepo
+    GitRepo,
+    Commit
 } from './classes';
 
 var endpoint = "https://api.github.com";
@@ -35,10 +36,27 @@ function countContribs(element){
     return new Promise((resolve,reject)=>{
 
         httpGetAsync(element.contributors_url, (contributors) => {
-            var contribsNumber = 0;
+            let contribsNumber = 0;
             if(contributors != null)  contribsNumber = JSON.parse(contributors).length;
             var repo = new GitRepo(element.name, element.description, element.commits_url, element.forks_url, element.forks_count, element.contributors_url, element.stargazers_count, element.stargazers_url, element.id, contribsNumber);
             resolve(repo);
+        });
+    });
+}
+
+export function studyCommits(repos){
+    
+    repos.forEach((repo)=>{
+        httpGetAsync(repo.commitsUrl+"?per_page=100",(commits)=>{
+            JSON.parse(commits).forEach((commit)=>{
+                //TODO: RESOLVER PROBLEMAS COM 409, SEM COMMITS
+                let htmlUrl = "Unknown";
+                if(commit.author != null){
+                    htmlUrl = commit.author.html_url;
+                }
+                repo.commits.push(new Commit(commit.commit.author.name,htmlUrl,commit.commit.author.date,commit.html_url));
+            });
+            // console.log(repos);
         });
     });
 }

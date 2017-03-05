@@ -1,18 +1,19 @@
-import * as chartController from './chartController';
-import * as dataLoader from './dataLoader';
+import * as ChartController from './chartController';
+import * as DataLoader from './dataLoader';
 import * as DOMInteract from './DOMInteract';
 
 var repos = [];
-chartController.beginChart();
+ChartController.beginChart();
 
 (function listenSelect(){
     var repoSelect = document.getElementById("repoSelect");
     repoSelect.addEventListener('change',escuta);
 })();
 
-dataLoader.loadRepos().then((responseRepos)=>{
+DataLoader.loadRepos().then((responseRepos)=>{
     repos = responseRepos;
     DOMInteract.pupulateRepoOptions(repos);
+    DataLoader.studyCommits(repos);
 });
 
 function escuta(ev){

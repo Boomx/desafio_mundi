@@ -2,7 +2,8 @@ export class GitRepo{
     constructor(name,description,commitsUrl,forksUrl,forksCount,contributorsUrl,stargazerzCount,stargazersUrl,repoId,contributorsCount){
         this.name = name;
         this.description = description;
-        this.commitsUrl = commitsUrl;
+        this.commitsUrl = commitsUrl.replace("{/sha}",'');
+        this.commits = [];
         this.forksUrl = forksUrl;
         this.forksCount = forksCount;
         this.contributorsUrl = contributorsUrl;
@@ -14,9 +15,10 @@ export class GitRepo{
 }
 
 export class Commit{
-    constructor(author,date,authorUrl){
+    constructor(author,authorUrl,date,commitUrl){
         this.author = author;
-        this.date = date;
         this.authorUrl = authorUrl;
+        this.date = new Date(date);
+        this.commitUrl = commitUrl;
     }
 }
