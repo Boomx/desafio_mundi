@@ -25,3 +25,23 @@ select{
 .chart_container{
     width: 600px;
 }
+
+.total_stars{
+    background: url('src/media/star2.png') no-repeat right;
+    background-size: 40%;
+}
+
+.total_forks{
+    background: url('src/media/fork-black-trans.png') no-repeat right ;
+}
+
+.total_contribs{
+    background: url('src/media/person-trans.png') no-repeat right;
+}
+
+.repo_stats_card{
+    background-color: #0078C1;
+}
+.repo_stats_card span{
+    font-size: 4rem;
+}
