@@ -1,8 +1,6 @@
 import * as chartController from './chartController';
 import * as dataLoader from './dataLoader';
 import * as DOMInteract from './DOMInteract';
-import {GitRepo} from './classes';
-
 
 var repos = [];
 chartController.beginChart();
@@ -18,8 +16,16 @@ dataLoader.loadRepos().then((responseRepos)=>{
 });
 
 function escuta(ev){
-    var e = document.getElementById("repoSelect");
-    var value = e.options[e.selectedIndex].value;
-    var text = e.options[e.selectedIndex].text;
-    console.log(value,text);
-};
+    var selectNode = document.getElementById("repoSelect");
+    var id = selectNode.options[selectNode.selectedIndex].id;
+    let repo = repos.find((element)=>{
+        if(element.repoId.toString() == id){
+            return element;
+        }
+    });
+    if(repo == undefined){
+        console.error("REPO NOT FOUND");
+    }
+    DOMInteract.updateCounters(repo.stargazerzCount,repo.forksCount,repo.contributorsCount);
+}
+
