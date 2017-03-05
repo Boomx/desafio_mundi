@@ -1,17 +1,25 @@
 import * as chartController from './chartController';
 import * as dataLoader from './dataLoader';
-import {GitRepo} from './classes'
+import * as DOMInteract from './DOMInteract';
+import {GitRepo} from './classes';
 
+
+var repos = [];
 chartController.beginChart();
 
-dataLoader.httpGetAsync("https://api.github.com/users/mundipagg/repos", (response) => {
-    // document.getElementsByTagName('body')[0].innerHTML+=response;
-    // console.log(response);
-    let objectResponse = JSON.parse(response);
-    // console.log(objectResponse);
-    let repos = objectResponse.map((element)=>{
-        // console.log(element.name);
-        return new GitRepo(element.name,element.description,element.commits_url,element.forks_url,element.forks_count,element.contributors_url,element.stargazers_count,element.stargazers_url);
-    })
-    console.log(repos);
-})
+(function listenSelect(){
+    var repoSelect = document.getElementById("repoSelect");
+    repoSelect.addEventListener('change',escuta);
+})();
+
+dataLoader.loadRepos().then((responseRepos)=>{
+    repos = responseRepos;
+    DOMInteract.pupulateRepoOptions(repos);
+});
+
+function escuta(ev){
+    var e = document.getElementById("repoSelect");
+    var value = e.options[e.selectedIndex].value;
+    var text = e.options[e.selectedIndex].text;
+    console.log(value,text);
+};
