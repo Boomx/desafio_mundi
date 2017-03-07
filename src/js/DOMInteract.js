@@ -9,15 +9,19 @@ export function pupulateRepoOptions(repos){
 }
 
 export function updateStars(starsCount){
-    document.getElementById('starsCounter').innerText = starsCount; 
+    var display = document.getElementById('starsCounter');
+    slowChangeCounter(starsCount,display.innerText,display);
 }
 
 export function updateForks(forksCount){
-    document.getElementById('forksCounter').innerText = forksCount;
+    var display = document.getElementById('forksCounter');
+    slowChangeCounter(forksCount,display.innerText,display);
+    
 }
 
 export function updateContribs(contribsCount){
-    document.getElementById('contribsCounter').innerText = contribsCount;
+    var display = document.getElementById('contribsCounter');
+    slowChangeCounter(contribsCount,display.innerText,display);
 }
 
 export function updateCounters(starsCount,forksCount,contribsCount){
@@ -39,4 +43,15 @@ export function hideChart(){
 export function showChart(){
     document.getElementById('myChart').style.display = 'inline';
     document.getElementById('emptyRepository').style.display = 'none';
+}
+
+function slowChangeCounter(future,current,display){
+    var duration = 180/future;
+
+    var iterator = setInterval(()=>{
+        if(current>future) current--;
+        else if(current<future)current++;
+        else clearInterval(iterator);
+        display.innerText = current;
+    },duration)
 }
