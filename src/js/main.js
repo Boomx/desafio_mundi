@@ -7,16 +7,16 @@ ChartController.beginChart();
 
 (function listenSelect(){
     var repoSelect = document.getElementById("repoSelect");
-    repoSelect.addEventListener('change',escuta);
+    repoSelect.addEventListener('change',changeRepo);
 })();
 
 DataLoader.loadRepos().then((responseRepos)=>{
     repos = responseRepos;
     DOMInteract.pupulateRepoOptions(repos);
-    DataLoader.studyCommits(repos);
+    DataLoader.loadCommits(repos);
 });
 
-function escuta(ev){
+function changeRepo(ev){
     var selectNode = document.getElementById("repoSelect");
     var id = selectNode.options[selectNode.selectedIndex].id;
     let repo = repos.find((element)=>{
@@ -28,5 +28,6 @@ function escuta(ev){
         console.error("REPO NOT FOUND");
     }
     DOMInteract.updateCounters(repo.stargazerzCount,repo.forksCount,repo.contributorsCount);
+    ChartController.beginChart(repo.commits);
 }
 

@@ -1,8 +1,11 @@
 'use strict';
 import {
     GitRepo,
-    Commit
+    Commit,
+    CommitAnalysis
 } from './classes';
+
+import analyzeCommits from './dataAnalysis';
 
 var endpoint = "https://api.github.com";
 export function httpGetAsync(url, callback) {
@@ -10,12 +13,12 @@ export function httpGetAsync(url, callback) {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             callback(xmlHttp.responseText);
-        }else if(xmlHttp.status == 204){//No content
+        } else if (xmlHttp.status == 204) { //No content
             callback(null)
         }
     }
     xmlHttp.open("GET", url, true);
-    xmlHttp.setRequestHeader("Authorization","Basic "+ btoa("boomx:tenispolar47"));
+    xmlHttp.setRequestHeader("Authorization", "Basic " + btoa("boomx:tenispolar47"));
     //Authorization necessary to increase de request number per hour
     xmlHttp.send(null);
 }
@@ -27,36 +30,37 @@ export function loadRepos() {
             let coutingContribs = JSON.parse(response).map((repository) => {
                 return countContribs(repository);
             });
-            Promise.all(coutingContribs).then((response)=>resolve(response));
+            Promise.all(coutingContribs).then((response) => resolve(response));
         });
     });
 }
 
-function countContribs(element){
-    return new Promise((resolve,reject)=>{
+function countContribs(element) {
+    return new Promise((resolve, reject) => {
 
         httpGetAsync(element.contributors_url, (contributors) => {
             let contribsNumber = 0;
-            if(contributors != null)  contribsNumber = JSON.parse(contributors).length;
+            if (contributors != null) contribsNumber = JSON.parse(contributors).length;
             var repo = new GitRepo(element.name, element.description, element.commits_url, element.forks_url, element.forks_count, element.contributors_url, element.stargazers_count, element.stargazers_url, element.id, contribsNumber);
             resolve(repo);
         });
     });
 }
 
-export function studyCommits(repos){
-    
-    repos.forEach((repo)=>{
-        httpGetAsync(repo.commitsUrl+"?per_page=100",(commits)=>{
-            JSON.parse(commits).forEach((commit)=>{
+export function loadCommits(repos) {
+
+    repos.forEach((repo) => {
+        httpGetAsync(repo.commitsUrl + "?per_page=100", (commits) => {
+            JSON.parse(commits).forEach((commit) => {
                 //TODO: RESOLVER PROBLEMAS COM 409, SEM COMMITS
                 let htmlUrl = "Unknown";
-                if(commit.author != null){
+                if (commit.author != null) {
                     htmlUrl = commit.author.html_url;
                 }
-                repo.commits.push(new Commit(commit.commit.author.name,htmlUrl,commit.commit.author.date,commit.html_url));
+                repo.commits.push(new Commit(commit.commit.author.name, htmlUrl, commit.commit.author.date, commit.html_url));
             });
-            // console.log(repos);
+            repo.commitsAnalysys = analyzeCommits(repo);
+            console.log(repo);
         });
     });
 }
