@@ -25,3 +25,18 @@ export function updateCounters(starsCount,forksCount,contribsCount){
     updateForks(forksCount);
     updateContribs(contribsCount);
 }
+
+export function loadComplete(){
+    document.getElementById('loading').remove();
+    document.getElementById('repoSelect').children[0].selected = 'selected';
+}
+
+export function hideChart(){
+    document.getElementById('myChart').style.display = 'none';
+    document.getElementById('empty_repository').style.display = 'inline';
+}
+
+export function showChart(){
+    document.getElementById('myChart').style.display = 'inline';
+    document.getElementById('empty_repository').style.display = 'none';
+}

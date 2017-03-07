@@ -2,10 +2,10 @@
 import {
     GitRepo,
     Commit,
-    CommitAnalysis
+    commitsAnalysis
 } from './classes';
 
-import analyzeCommits from './dataAnalysis';
+import * as DataAnalysis from './dataAnalysis';
 
 var endpoint = "https://api.github.com";
 export function httpGetAsync(url, callback) {
@@ -14,7 +14,9 @@ export function httpGetAsync(url, callback) {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             callback(xmlHttp.responseText);
         } else if (xmlHttp.status == 204) { //No content
-            callback(null)
+            callback(null);
+        } else if (xmlHttp.status == 409) { //Empty Repo
+            callback(null);
         }
     }
     xmlHttp.open("GET", url, true);
@@ -27,17 +29,17 @@ export function httpGetAsync(url, callback) {
 export function loadRepos() {
     return new Promise((resolve, reject) => {
         httpGetAsync(endpoint + "/users/mundipagg/repos", (response) => {
-            let coutingContribs = JSON.parse(response).map((repository) => {
+            // console.log(response);
+            let countContribsPromisesArray = JSON.parse(response).map((repository) => {
                 return countContribs(repository);
             });
-            Promise.all(coutingContribs).then((response) => resolve(response));
+            Promise.all(countContribsPromisesArray).then((response) => resolve(response));
         });
     });
 }
 
 function countContribs(element) {
     return new Promise((resolve, reject) => {
-
         httpGetAsync(element.contributors_url, (contributors) => {
             let contribsNumber = 0;
             if (contributors != null) contribsNumber = JSON.parse(contributors).length;
@@ -48,19 +50,30 @@ function countContribs(element) {
 }
 
 export function loadCommits(repos) {
+    console.log("load");
+    return new Promise((resolve, reject) => {
 
-    repos.forEach((repo) => {
-        httpGetAsync(repo.commitsUrl + "?per_page=100", (commits) => {
-            JSON.parse(commits).forEach((commit) => {
-                //TODO: RESOLVER PROBLEMAS COM 409, SEM COMMITS
-                let htmlUrl = "Unknown";
-                if (commit.author != null) {
-                    htmlUrl = commit.author.html_url;
-                }
-                repo.commits.push(new Commit(commit.commit.author.name, htmlUrl, commit.commit.author.date, commit.html_url));
+        var promisesArray = repos.map((repo) => {
+
+            return new Promise((resolveInside, reject) => {
+                httpGetAsync(repo.commitsUrl + "?per_page=100", (commits) => {
+                    if (commits == null) resolveInside();
+                    else {
+                        JSON.parse(commits).forEach((commit) => {
+                            //TODO: RESOLVER PROBLEMAS COM 409, SEM COMMITS
+                            let htmlUrl = "Unknown";
+                            if (commit.author != null) {
+                                htmlUrl = commit.author.html_url;
+                            }
+                            repo.commits.push(new Commit(commit.commit.author.name, htmlUrl, commit.commit.author.date, commit.html_url));
+                        });
+                        repo.commitsAnalysis = DataAnalysis.analyzeCommits(repo,resolveInside);
+                        // resolveInside();
+                    }
+                });
             });
-            repo.commitsAnalysys = analyzeCommits(repo);
-            console.log(repo);
+
         });
+        Promise.all(promisesArray).then(resolve());
     });
 }

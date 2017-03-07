@@ -3,7 +3,6 @@ import * as DataLoader from './dataLoader';
 import * as DOMInteract from './DOMInteract';
 
 var repos = [];
-ChartController.beginChart();
 
 (function listenSelect(){
     var repoSelect = document.getElementById("repoSelect");
@@ -13,7 +12,10 @@ ChartController.beginChart();
 DataLoader.loadRepos().then((responseRepos)=>{
     repos = responseRepos;
     DOMInteract.pupulateRepoOptions(repos);
-    DataLoader.loadCommits(repos);
+    DataLoader.loadCommits(repos).then(()=>{
+        DOMInteract.loadComplete();
+        changeRepo();
+    });
 });
 
 function changeRepo(ev){
@@ -24,10 +26,15 @@ function changeRepo(ev){
             return element;
         }
     });
-    if(repo == undefined){
-        console.error("REPO NOT FOUND");
-    }
     DOMInteract.updateCounters(repo.stargazerzCount,repo.forksCount,repo.contributorsCount);
-    ChartController.beginChart(repo.commits);
+    console.log(repo);
+    if(repo.commitsAnalysis !== undefined){
+        console.log('show');
+        DOMInteract.showChart();
+        ChartController.beginChart(repo);
+    }
+    else{
+        DOMInteract.hideChart();
+    }
 }
 

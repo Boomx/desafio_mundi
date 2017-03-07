@@ -23,7 +23,7 @@
 
     <article  class="select_card card">
         <select autofocus id="repoSelect" name="select_repo">
-            <option value="" disabled selected>Select your repository</option>
+            <option id="loading" value="" disabled selected>Carregando...</option>
         </select>
     </article>
 
@@ -35,7 +35,7 @@
                     <h3>Stars</h3>
                 </header>
                 <footer>
-                    <span id="starsCounter">999</span>
+                    <span id="starsCounter">0</span>
                 </footer>
             </article>
         </span></div>
@@ -46,7 +46,7 @@
                     <h3>Forks</h3>
                 </header>
                 <footer>
-                    <span id="forksCounter">999</span>
+                    <span id="forksCounter">0</span>
                 </footer>
             </article>
         </span></div>
@@ -56,18 +56,19 @@
                     <h3>Contribs</h3>
                 </header>
                 <footer>
-                    <span id="contribsCounter">999</span>
+                    <span id="contribsCounter">0</span>
                 </footer>
             </article>
         </span></div>
     </div>
 
     <article class="card">
-        <header>
+        <!--<header>
             <h3>Commits</h3>
-        </header>
+        </header>-->
         <div class="chart_container">
             <canvas id="myChart" width="500" height="200"></canvas>
+            <h1 id='empty_repository'>Empty Repository</h1>
         </div>
     </article>
 

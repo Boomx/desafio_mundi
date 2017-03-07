@@ -1,4 +1,9 @@
-export function analyzeCommits(repository) {
+import {
+    commitsAnalysis
+} from './classes';
+
+
+export function analyzeCommits(repository,resolve) {
     //Gives the repository the necessary information to fill the graph
     
     //Stops the function if there is no commits in repository
@@ -49,5 +54,12 @@ export function analyzeCommits(repository) {
         }
     });
 
-    return new CommitAnalysis(intervalSize,intervals,firstCommit,lastCommit,commitsPerInterval);
+    //Parse Dates to string formats according to Interval Size
+    var intervalInString = intervals.map((element)=>{
+        if(intervalSize == 'month')
+            return element.format("DD/MMM/YYYY");
+        return element.format("DD/MM/YYYY,") +' week ' + element.format('w');
+    });
+    resolve();
+    return new commitsAnalysis(intervalSize,intervalInString,firstCommit,lastCommit,commitsPerInterval);
 }

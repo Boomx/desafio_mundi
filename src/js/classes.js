@@ -24,7 +24,7 @@ export class Commit{
     }
 }
 
-export class CommitAnalysis{
+export class commitsAnalysis{
     constructor(intervalSize,intervals,firstCommit,lastCommit,commitsPerInterval){
         this.intervalSize = intervalSize; //WEEK,MONTH
         this.intervals = intervals;
