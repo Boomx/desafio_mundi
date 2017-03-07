@@ -1,5 +1,8 @@
 @import "../node_modules/picnic/picnic.min.css";
 
+body{
+    background-color: #0F1B2A;
+}
 nav{
     background: url('/src/media/header.png') center center no-repeat;
     position: relative;
@@ -24,6 +27,7 @@ select{
 
 .chart_container{
     max-width: 850px;
+    max-height: 20em;
 }
 
 .chartCard{
