@@ -28,9 +28,7 @@ function changeRepo(){
         }
     });
     DOMInteract.updateCounters(repo.stargazerzCount,repo.forksCount,repo.contributorsCount);
-    console.log(repo);
     if(repo.commitsAnalysis !== undefined){
-        console.log('show');
         DOMInteract.showChart();
         ChartController.beginChart(repo);
     }

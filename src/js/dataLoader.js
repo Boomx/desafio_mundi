@@ -50,7 +50,6 @@ function countContribs(element) {
 }
 
 export function loadCommits(repos) {
-    console.log("load");
     return new Promise((resolve, reject) => {
 
         var promisesArray = repos.map((repo) => {
@@ -68,12 +67,11 @@ export function loadCommits(repos) {
                             repo.commits.push(new Commit(commit.commit.author.name, htmlUrl, commit.commit.author.date, commit.html_url));
                         });
                         repo.commitsAnalysis = DataAnalysis.analyzeCommits(repo,resolveInside);
-                        // resolveInside();
                     }
                 });
             });
 
         });
-        Promise.all(promisesArray).then(resolve());
+        Promise.all(promisesArray).then(()=>resolve());
     });
 }
