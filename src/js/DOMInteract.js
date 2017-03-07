@@ -33,10 +33,10 @@ export function loadComplete(){
 
 export function hideChart(){
     document.getElementById('myChart').style.display = 'none';
-    document.getElementById('empty_repository').style.display = 'inline';
+    document.getElementById('emptyRepository').style.display = 'inline';
 }
 
 export function showChart(){
     document.getElementById('myChart').style.display = 'inline';
-    document.getElementById('empty_repository').style.display = 'none';
+    document.getElementById('emptyRepository').style.display = 'none';
 }
