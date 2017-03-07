@@ -13,12 +13,13 @@ DataLoader.loadRepos().then((responseRepos)=>{
     repos = responseRepos;
     DOMInteract.pupulateRepoOptions(repos);
     DataLoader.loadCommits(repos).then(()=>{
+        document.getElementById('loadingPanel').classList.add('loadingDone');
         DOMInteract.loadComplete();
         changeRepo();
     });
 });
 
-function changeRepo(ev){
+function changeRepo(){
     var selectNode = document.getElementById("repoSelect");
     var id = selectNode.options[selectNode.selectedIndex].id;
     let repo = repos.find((element)=>{
