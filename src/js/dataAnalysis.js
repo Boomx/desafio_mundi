@@ -56,9 +56,7 @@ export function analyzeCommits(repository,resolve) {
 
     //Parse Dates to string formats according to Interval Size
     var intervalInString = intervals.map((element)=>{
-        if(intervalSize == 'month')
-            return element.format("DD/MMM/YYYY");
-        return element.format("DD/MM/YYYY,") +' week ' + element.format('w');
+        return element.format("DD/MM/YYYY,");
     });
     resolve();
     return new commitsAnalysis(intervalSize,intervalInString,firstCommit,lastCommit,commitsPerInterval);
