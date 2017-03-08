@@ -1,4 +1,4 @@
-# Desafio MundiPagg Frontend
+# Desafio MundiPagg Front-end
 
 Desafio para vaga de front-end na MundiPagg
 
@@ -25,9 +25,9 @@ git clone git@github.com:Boomx/desafio_mundi.git
 
 ## Built With
 
-* [Pinicnic Css](https://picnicss.com/) - The web framework used
+* [Picnic Css](https://picnicss.com/) - The web framework used
 * [ChartJS](http://www.chartjs.org/) - Chart Drawer
-* [RullupJs ](https://rollupjs.org/) - Bundler
+* [RollupJs ](https://rollupjs.org/) - Bundler
 
 ## Authors
 
