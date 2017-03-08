@@ -31,7 +31,7 @@ git clone git@github.com:Boomx/desafio_mundi.git
 
 ## Authors
 
-* **Denilson Rodrigues** - *Initial work* - [Boomx](https://github.com/boomx)
+* **Denilson Rodrigues** - [Boomx](https://github.com/boomx)
 
 ## License
 
