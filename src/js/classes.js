@@ -5,6 +5,7 @@ export class GitRepo{
         this.commitsUrl = commitsUrl.replace("{/sha}",'');
         this.commits = [];
         this.commitsAnalysis;
+        this.readMe;
         this.forksUrl = forksUrl;
         this.forksCount = forksCount;
         this.contributorsUrl = contributorsUrl;

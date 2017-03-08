@@ -22,7 +22,6 @@
 
     <article  class="select_card card">
         <select autofocus id="repoSelect" name="select_repo">
-            <option id="loading" value="" disabled selected>Carregando...</option>
         </select>
     </article>
 
@@ -68,8 +67,15 @@
         </div>
     </article>
 
+    <article id="readMeButtonContainer" class="card">
+        <button id="readMeButton">README</button>
+    </article>
+
+    <article id="readmeDisplay" class="card">
+    </article>
+
 </body>
     <script src="chart+moment.js"></script>
+    <script src='showdown.min.js'></script>
     <script src='bundle.js'></script>
-    <!--<script src='moment.js'></script>-->
 </html>

@@ -1,8 +1,11 @@
 @import "../node_modules/picnic/picnic.min.css";
 
 body{
+    margin:0;
+    padding:0;
     background-color: #0F1B2A;
 }
+
 nav{
     background: url('/src/media/header.png') center center no-repeat;
     position: relative;
@@ -57,9 +60,14 @@ select{
 .repo_stats_card span{
     font-size: 2.5rem;
 }
+#readMeButtonContainer{
+    background-color: #0F1B2A;
+}
+#readMeButton{
+    background-color: #0F1B2A;
+    width: 100%;
+}
 
-
-body{margin:0;padding:0;}
 
 #loadingPanel {
     z-index: 10;
@@ -70,7 +78,6 @@ body{margin:0;padding:0;}
     background-color: #0078C1;
     display: block;
     text-align: center;
-    vertical-align: middle;
     line-height: 35rem;  
 }
 

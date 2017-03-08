@@ -8,7 +8,7 @@ import {
 import * as DataAnalysis from './dataAnalysis';
 
 var endpoint = "https://api.github.com";
-export function httpGetAsync(url, callback) {
+export function httpGetAsync(url, callback, unauthorized) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -20,7 +20,8 @@ export function httpGetAsync(url, callback) {
         }
     }
     xmlHttp.open("GET", url, true);
-    xmlHttp.setRequestHeader("Authorization", "Basic " + btoa("boomx:tenispolar47"));
+    if (unauthorized == undefined)
+        xmlHttp.setRequestHeader("Authorization", "Basic " + btoa("boomx:tenispolar47"));
     //Authorization necessary to increase de request number per hour
     xmlHttp.send(null);
 }
@@ -52,7 +53,7 @@ function countContribs(element) {
 export function loadCommits(repos) {
     return new Promise((resolve, reject) => {
 
-        var promisesArray = repos.map((repo) => {
+        let promisesArray = repos.map((repo) => {
 
             return new Promise((resolveInside, reject) => {
                 httpGetAsync(repo.commitsUrl + "?per_page=100", (commits) => {
@@ -66,12 +67,20 @@ export function loadCommits(repos) {
                             }
                             repo.commits.push(new Commit(commit.commit.author.name, htmlUrl, commit.commit.author.date, commit.html_url));
                         });
-                        repo.commitsAnalysis = DataAnalysis.analyzeCommits(repo,resolveInside);
+                        repo.commitsAnalysis = DataAnalysis.analyzeCommits(repo, resolveInside);
                     }
                 });
             });
 
         });
-        Promise.all(promisesArray).then(()=>resolve());
+        Promise.all(promisesArray).then(() => resolve());
+    });
+}
+
+export function loadReadme(repository) {
+    return new Promise((resolve, reject) => {
+        httpGetAsync('https://raw.githubusercontent.com/mundipagg/' + repository.name + '/master/README.md', (response) => {
+            resolve(response);
+        }, true);
     });
 }

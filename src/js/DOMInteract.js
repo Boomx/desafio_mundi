@@ -1,3 +1,5 @@
+var converter = new showdown.Converter();
+
 export function pupulateRepoOptions(repos){
     repos.forEach((element)=>{
         var option = document.createElement('option');
@@ -31,8 +33,8 @@ export function updateCounters(starsCount,forksCount,contribsCount){
 }
 
 export function loadComplete(){
-    document.getElementById('loading').remove();
     document.getElementById('repoSelect').children[0].selected = 'selected';
+    document.getElementById('loadingPanel').classList.add('loadingDone');
 }
 
 export function hideChart(){
@@ -45,6 +47,18 @@ export function showChart(){
     document.getElementById('emptyRepository').style.display = 'none';
 }
 
+export function showReadMe(readme){
+    document.getElementById('readmeDisplay').innerHTML = converter.makeHtml(readme);
+    document.getElementById('readmeDisplay').style.display= 'block';
+    document.getElementById('readMeButtonContainer').style.display= 'none';
+}
+
+export function hideReadMe(){
+    document.getElementById('readMeButtonContainer').style.display= 'block';
+    document.getElementById('readmeDisplay').style.display= 'none';
+    document.getElementById('readmeDisplay').innerHTML= '';
+}
+
 function slowChangeCounter(future,current,display){
     var duration = 180/future;
 
@@ -55,3 +69,4 @@ function slowChangeCounter(future,current,display){
         display.innerText = current;
     },duration)
 }
+
